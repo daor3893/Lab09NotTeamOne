@@ -17,6 +17,19 @@ locations <- read.csv("Nice_Ride_2017_Station_Locations.csv")
 trip <- read.csv("Nice_ride_trip_history_2017_season.csv")
 
 ```
+```{r,echo=FALSE}
+
+locations <- read_csv("Nice_Ride_2017_Station_Locations.csv")
+rides <- read_csv("Nice_ride_trip_history_2017_season.csv")
+
+merged <- left_join(rides, locations, by = c("Start station number" = "Number")) %>%
+  left_join(locations, by = c("End station number" = "Number")) %>%
+  mutate(start_latitude = `Latitude.x`, start_longitude = `Longitude.x`, start_total_docks = `Total docks.x`) %>%
+  mutate(end_latitude = `Latitude.y`, end_longitude = `Longitude.y`, end_total_docks = `Total docks.y`) %>%
+  select(-`Name.x`, -`Name.y`, -`Latitude.x`, -`Longitude.x`, -`Total docks.x`, -`Latitude.y`, -`Longitude.y`, -`Total docks.y`)
+
+merged <- merged[c(1:3, 9:11, 4:6, 12:14, 7:8)]
+```
 ```{r,echo=FALSE,error=FALSE,warning=FALSE}
 # Set latitudes and longitudes of city map
 LAT1 <- 44.88     # Do not change
@@ -44,6 +57,16 @@ autoplot(map.latlon) + # Plots a map
                color = 'blue', size = 1) +
   labs(x='Longitude', y='Latitude') +
   ggtitle('Locations of NiceRide Stations')
+```
+```{r} 
+data <- trip %>% separate(Start.date, into = c("date","time"),sep = " ") %>% separate(time, into = c("hour","minute"),sep = ":") 
+data$hour <- parse_integer(data$hour) 
+data$minute <- parse_integer(data$minute) 
+ 
+ 
+hallo <- data %>% filter(date == "10/31/2017",hour < 8) 
+ 
+trip$Start.date <- mdy_hm(trip$Start.date) 
 ```
 
 
