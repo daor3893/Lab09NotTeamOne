@@ -1,9 +1,12 @@
 ---
 title: "Lab09NotTeamOne"
-author: "David Orozco"
+author: "David Orozco, Ethan Schacht, Ryan Tate, Anderson Mun, Arie del Valle"
 date: "March 14, 2019"
 output: html_document
 ---
+****
+# Lab setup/test
+**** 
 
 ```{r,echo=FALSE, warning=FALSE,include=FALSE}
 #install.packages("tidyverse")
@@ -17,7 +20,7 @@ locations <- read.csv("Nice_Ride_2017_Station_Locations.csv")
 trip <- read.csv("Nice_ride_trip_history_2017_season.csv")
 
 ```
-```{r,echo=FALSE}
+```{r,echo=FALSE,message=FALSE}
 
 locations <- read_csv("Nice_Ride_2017_Station_Locations.csv")
 rides <- read_csv("Nice_ride_trip_history_2017_season.csv")
@@ -58,15 +61,28 @@ autoplot(map.latlon) + # Plots a map
   labs(x='Longitude', y='Latitude') +
   ggtitle('Locations of NiceRide Stations')
 ```
-```{r} 
-data <- trip %>% separate(Start.date, into = c("date","time"),sep = " ") %>% separate(time, into = c("hour","minute"),sep = ":") 
-data$hour <- parse_integer(data$hour) 
-data$minute <- parse_integer(data$minute) 
- 
- 
-hallo <- data %>% filter(date == "10/31/2017",hour < 8) 
- 
-trip$Start.date <- mdy_hm(trip$Start.date) 
+```{r,echo=FALSE} 
+trip <- merged %>% separate(`Start date` , into = c("date","time"),sep = " ") %>% separate(time,into = c("hour","minute"),sep = ":")
+
+trip$date <- mdy(trip$date) 
+trip$hour <- parse_integer(trip$hour)
+trip$minute <- parse_integer(trip$minute)
+
+```
+```{r,echo=FALSE,warning=FALSE,message=FALSE}
+hallo <- trip %>% filter(date == '2017-10-31',hour < 8)
+# Plot rides for halloween morning
+#ggplot() +
+autoplot(map.latlon) + # Plots a map 
+  geom_segment(data=hallo, 
+               aes(x=start_longitude, y=start_latitude,
+                   xend=end_longitude, yend=end_latitude), 
+               color = 'blue', size = .5,
+               arrow = arrow(length = unit(0.2, "cm"))) +
+  labs(x='Longitude', y='Latitude') +
+  scale_x_continuous(limits = c(-93.3, -93.2)) +
+  scale_y_continuous(limits = c(44.93, 45.02)) +
+  ggtitle('Halloween Morning Rides')
 ```
 
 
