@@ -89,14 +89,24 @@ autoplot(map.latlon) + # Plots a map
 ****
 #### David's Section
 **** 
+Question: How long do people keep bikes with NiceRide in terms of duration(time) and date-time??
+
 ```{r,echo=FALSE}
 # trying to find average distance(in coordinates traveled)
 
 lat <- merged %>% select(c(1,4,5,7,10,11,14)) %>% mutate(chnglat = abs(start_latitude-end_latitude), chnglong = abs(start_longitude-end_longitude)) %>% separate(`Start date`, into = c("dateint","timeint"),sep = " ") %>% separate(`End date`,into = c("dateend","timeend"),sep = " ") %>% separate(timeend,into = c("hourend","minuteend"),sep = ":") %>% separate(timeint,into = c("hourint","minuteint"),sep = ":") 
 
 #str <- lat[,c(1:5)]
+#str$dateint <- mdy(str$dateint)
+#str <- str%>% mutate(day = strftime(str$dateint, format = "%j"))
+                          
 #end <- lat[,c(6:13)] %>% rename("dateint" = "dateend")
+#x <- str %>% inner_join(end, by = "dateint")
 
+#str$hourint <- parse_integer(str$hourint)
+#end$hourint <- parse_integer(end$hourint)
+
+#x <- end %>% inner_join(str, by = "dateint")
 #lat %>% count(dateint == dateend) %>% filter(n > 1)
 #lat %>% count(hourint == hourend) %>% filter(n > 1)
 
@@ -106,6 +116,44 @@ returns <- returns %>% mutate(percent = n/sum(returns$n))%>% mutate(SameDayRetur
 returns <- returns[,c(5,6,3,4)]
 returns
 
+#shows people who rent over nights(two days technically)
+#gg <- trip %>% filter(hour == 23) %>% arrange(desc(minute))
+
+```
+
+Note : `samedayreturn = false` includes those who rented before midnight and returns after midnight. This is not based on time (24hr) but on date.
+
+
+The graphs below are based on time. 
+
+```{r,echo=FALSE}
+
+onehour <- lat %>% mutate(minute = `Total duration (Seconds)`/60) %>%  filter(minute < 60 ) %>% arrange(desc(minute))
+oneday <- lat %>% mutate(hour = `Total duration (Seconds)`/3600) %>%  filter(hour >= 1,hour < 24 ) %>% arrange(desc(hour))
+
+moredays <- lat %>% mutate( hour = `Total duration (Seconds)`/3600) %>% mutate(days = hour/24) %>% filter(days >= 1,days < 7 ) %>% arrange(desc(days))
+
+moreweeks <- lat %>% mutate( hour = `Total duration (Seconds)`/3600) %>% mutate(days = hour/24) %>% mutate(weeks = days/7) %>% filter(weeks >= 1)%>% arrange(desc(weeks))
+```
+****
+```{r,echo=FALSE}
+ggplot(data = onehour, mapping = aes(x = minute)) + geom_density()
+count(onehour)
+```
+****
+```{r,echo=FALSE}
+ggplot(data = oneday, mapping = aes(x = hour)) + geom_density()
+count(oneday)
+```
+****
+```{r,echo=FALSE}
+ggplot(data = moredays, mapping = aes(x = days)) + geom_density()
+count(moredays)
+```
+****
+```{r,echo=FALSE}
+ggplot(data = moreweeks, mapping = aes(x = weeks)) + geom_density()
+count(moreweeks)
 ```
 
 **** 
