@@ -167,7 +167,51 @@ count(moreweeks)
 **** 
 #### Ethan's Section
 ****
+```{r,echo=FALSE}
 
+merged$`Start date` <- mdy_hm(merged$`Start date`)
+merged$`End date` <- mdy_hm(merged$`End date`)
+
+nice_ride <- merged %>%
+  mutate(week_day = wday(`Start date`, label = TRUE)) %>%
+  filter(`Account type` != "Inconnu")
+
+ggplot(data = nice_ride) +
+  geom_bar(mapping = aes(x = week_day, fill = `Account type`), position = "dodge") +
+  xlab("Day of Week") +
+  ylab("Count") +
+  ggtitle("Distribution of Rides Throughout Week by Account Type")
+
+week_stats <- nice_ride %>%
+  group_by(week_day, `Account type`) %>%
+  summarise(count = n())
+
+```
+
+* Question: How often do people use the Nice Ride depending on the day of week, and how
+does this vary by account type?
+
+* Methods: I first used left_join to combine the locations dataset with the overall rides
+dataset, and then changed some variable names and sorted based on if the variables described
+starting location or ending location.  I then parsed by times into mdy_hm and used w_day
+to make a variable describing the day of week.  For the graph, used geom_bar to plot day
+of week against count of rides for that day of week, filling with Account Type and using dodge
+to compare the different memberships side-by-side for each day.  To get stats from this graph,
+I grouped by the week day and account type and counted occurances of each combination.
+
+* Findings: Most people tend to utilize the Nice Rides on the weekends, and this makes sense
+because people tend to have more free time on these days.  Interestingly, member account 
+types far outnumber casual account types on the weekdays, but casual account types outweigh
+member account types on the weekends.  This is likely due to the fact that people who pay for
+the membership are likely doing so because they also need it on the weekdays, perhaps to 
+regularly commute to work, whereas casual riders who may be using the service for more 
+leisurely reasons on the weekends don't as strongly require a regular membership.
+
+* Stats: 
+1. The most common riding day is Saturday, with a total of over 80,000 rides
+2. Totals of at least 40,000 rides are taken by members on each week day, and totals of less
+   than 20,000 rides are taken by casual members each weekday unless it's Friday
+   
 **** 
 #### Ryan's Section
 ****
