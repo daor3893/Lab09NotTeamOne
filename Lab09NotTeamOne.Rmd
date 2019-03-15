@@ -6,7 +6,10 @@ output: html_document
 ---
 
 ```{r,echo=FALSE}
+#install.packages("tidyverse")
 library(tidyverse)
-library()
-
+library(lubridate)
+#install.packages("OpenStreetMap")
+library(OpenStreetMap)
+library(ggplot2)
 ```
