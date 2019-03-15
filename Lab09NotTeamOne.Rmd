@@ -5,11 +5,45 @@ date: "March 14, 2019"
 output: html_document
 ---
 
-```{r,echo=FALSE}
+```{r,echo=FALSE, warning=FALSE,include=FALSE}
 #install.packages("tidyverse")
 library(tidyverse)
 library(lubridate)
 #install.packages("OpenStreetMap")
 library(OpenStreetMap)
 library(ggplot2)
+locations <- read.csv("Nice_Ride_2017_Station_Locations.csv")
+
+trip <- read.csv("Nice_ride_trip_history_2017_season.csv")
+
 ```
+```{r,echo=FALSE,error=FALSE,warning=FALSE}
+# Set latitudes and longitudes of city map
+LAT1 <- 44.88     # Do not change
+LAT2 <- 45.05     # Do not change
+LON1 <- -93.35    # Do not change
+LON2 <- -93.08    # Do not change
+
+# Generate map
+map <- openmap(c(LAT2,LON1), c(LAT1,LON2), zoom = NULL, # Can change zoom
+               type = "esri",                           # Can change
+               mergeTiles = TRUE)                       # Do not change
+
+# Project map to latitude and longitude
+map.latlon <- openproj(map, projection = "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs") # Do not change
+
+# Plot map of Minneapolis
+autoplot(map.latlon) # Plots a map 
+
+# Plot all niceride stations
+# If you are not plotting the map, use ggplot() instead of autoplot
+#ggplot() +
+autoplot(map.latlon) + # Plots a map 
+  geom_point(data=locations, 
+               aes(x=Longitude, y=Latitude), 
+               color = 'blue', size = 1) +
+  labs(x='Longitude', y='Latitude') +
+  ggtitle('Locations of NiceRide Stations')
+```
+
+
