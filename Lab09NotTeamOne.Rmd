@@ -89,23 +89,37 @@ autoplot(map.latlon) + # Plots a map
 ****
 #### David's Section
 **** 
-```{r}
+```{r,echo=FALSE}
 # trying to find average distance(in coordinates traveled)
 
-lat <- merged %>% select(c(1,4,5,7,10,11,14)) %>% mutate(chnglat = abs(start_latitude-end_latitude), chnglong = abs(start_longitude-end_longitude)) %>% separate(`Start date`, into = c("date","time"),sep = " ") %>% separate(`End date`,into = c("date1","time1"),sep = " ") %>% separate(time,into = c("hour","minute"),sep = ":") %>% separate(time1,into = c("hour1","minute1"),sep = ":") 
+lat <- merged %>% select(c(1,4,5,7,10,11,14)) %>% mutate(chnglat = abs(start_latitude-end_latitude), chnglong = abs(start_longitude-end_longitude)) %>% separate(`Start date`, into = c("dateint","timeint"),sep = " ") %>% separate(`End date`,into = c("dateend","timeend"),sep = " ") %>% separate(timeend,into = c("hourend","minuteend"),sep = ":") %>% separate(timeint,into = c("hourint","minuteint"),sep = ":") 
+
+#str <- lat[,c(1:5)]
+#end <- lat[,c(6:13)] %>% rename("dateint" = "dateend")
+
+#lat %>% count(dateint == dateend) %>% filter(n > 1)
+#lat %>% count(hourint == hourend) %>% filter(n > 1)
+
+returns <- lat %>% count(dateint == dateend, hourint == hourend) %>% filter(n > 1)
+returns <- returns %>% mutate(percent = n/sum(returns$n))%>% mutate(SameDayReturn = `dateint == dateend`,SameHourReturn = `hourint == hourend`) %>% arrange(desc(percent))
+
+returns <- returns[,c(5,6,3,4)]
+returns
 
 ```
-```{r}
-start <- lat[,c(1:5)]
-end <- lat[,c(6:10)] %>% rename("date" = "date1","hour" = "hour1","minute" = "minute1")
-sameday <- start %>% left_join(end, by = "date")
 
-```
-```{r}
-lat %>% count(date == date1) %>% filter(n > 1)
-lat %>% count(hour == hour1) %>% filter(n > 1)
-lat %>% count(date == date1, hour == hour1) %>% filter(n > 1)
+**** 
+#### Arie's Section
+****
 
+**** 
+#### Anderson's Section
+****
 
+**** 
+#### Ethan's Section
+****
 
-```
+**** 
+#### Ryan's Section
+****
