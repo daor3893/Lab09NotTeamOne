@@ -4,11 +4,13 @@ author: "David Orozco, Ethan Schacht, Ryan Tate, Anderson Mun, Arie del Valle"
 date: "March 14, 2019"
 output: html_document
 ---
-****
-# Lab setup/test
-**** 
+
 
 ```{r,echo=FALSE, warning=FALSE,include=FALSE}
+
+
+# Lab setup/test
+
 #install.packages("tidyverse")
 library(tidyverse)
 library(lubridate)
@@ -20,7 +22,7 @@ locations <- read.csv("Nice_Ride_2017_Station_Locations.csv")
 trip <- read.csv("Nice_ride_trip_history_2017_season.csv")
 
 ```
-```{r,echo=FALSE,message=FALSE}
+```{r,echo=FALSE,message=FALSE,include=FALSE}
 
 locations <- read_csv("Nice_Ride_2017_Station_Locations.csv")
 rides <- read_csv("Nice_ride_trip_history_2017_season.csv")
@@ -33,7 +35,7 @@ merged <- left_join(rides, locations, by = c("Start station number" = "Number"))
 
 merged <- merged[c(1:3, 9:11, 4:6, 12:14, 7:8)]
 ```
-```{r,echo=FALSE,error=FALSE,warning=FALSE}
+```{r,echo=FALSE,error=FALSE,warning=FALSE,include=FALSE}
 # Set latitudes and longitudes of city map
 LAT1 <- 44.88     # Do not change
 LAT2 <- 45.05     # Do not change
@@ -69,7 +71,7 @@ trip$hour <- parse_integer(trip$hour)
 trip$minute <- parse_integer(trip$minute)
 
 ```
-```{r,echo=FALSE,warning=FALSE,message=FALSE}
+```{r,echo=FALSE,warning=FALSE,message=FALSE,include=FALSE}
 hallo <- trip %>% filter(date == '2017-10-31',hour < 8)
 # Plot rides for halloween morning
 #ggplot() +
@@ -124,7 +126,7 @@ returns
 
 ```
 
-```{r,echo=FALSE}
+```{r,echo=FALSE,warning=FALSE}
 kkk <- lat %>% separate(dateint, into = c("year","month","day"),sep = "-") %>% unite("date",1:3,sep = "") %>% separate(dateend, into = c("year1","month1","day1"),sep = "-") %>% unite("datef",6:8,sep = "")
 kkk$date <- parse_integer(kkk$date)
 kkk$datef <- parse_integer(kkk$datef)
@@ -139,8 +141,10 @@ fff <- as.tibble(fff)
 ```
 Note : `samedayreturn = false` includes those who rented before midnight and returns after midnight. This is not based on time (24hr) but on date.
 
+* The tibble above shows the amount of NiceRide users depending on when they rented and returned thier bikes. Most users (~ 70%) rent and return thier bikes on the same day and hour. About 29% of users rent and return on the same day but return in during a different hour. The minority of the users, less than .02 percent, return thier bikes at the same time on different days. 
 
-The graphs below are based on time. 
+
+The graphs below are based on time. Also, it is composed of 434,696 NiceRide users who rent thier bikes for less than hour. 
 
 ```{r,echo=FALSE}
 
@@ -155,7 +159,16 @@ moreweeks <- lat %>% mutate( hour = `Total duration (Seconds)`/3600) %>% mutate(
 ```{r,echo=FALSE}
 ggplot(data = onehour, mapping = aes(x = minute)) + geom_density()
 count(onehour)
+
+onehour %>% filter(minute < 10) %>% summarise(mean = mean(minute))
 ```
+
+* From all the NiceRide users who rent a bike for less than an hour, 6 minute is the average session length.
+
+Methods: I used `left_join` to merge the location and ride dataset in order to be able to plot latitude and logitude along with date. I used `separate` to spit the date and times for `Start Date` and `End date`. I also used a tactic described in chapter 13 to find the amount of 'repeats'. So I was able to find when `dateint == dateend` and/or `hourint == hourend`. I used the `myd()` function to format the character entries for date into a date format. Along with that function I used other `parse` functions to reformat the entries. `returns <- returns[,c(5,6,3,4)]` was used in place of `select` to elect the columns that were under study. Finally, I used `filter` commands and `geom_density` to show the distribution in duration of bikes rented.
+
+
+
 ****
 ```{r,echo=FALSE,include=FALSE}
 ggplot(data = oneday, mapping = aes(x = hour)) + geom_density()
@@ -202,11 +215,11 @@ week_stats <- nice_ride %>%
 
 ```
 
-* Methods: I first used left_join to combine the locations dataset with the overall rides
+* Methods: I first used `left_join` to combine the locations dataset with the overall rides
 dataset, and then changed some variable names and sorted based on if the variables described
-starting location or ending location.  I then parsed by times into mdy_hm and used w_day
+starting location or ending location.  I then parsed by times into `mdy_hm` and used `w_day`
 to make a variable describing the day of week.  For the graph, used geom_bar to plot day
-of week against count of rides for that day of week, filling with Account Type and using dodge
+of week against count of rides for that day of week, filling with Account Type and using `dodge`
 to compare the different memberships side-by-side for each day.  To get stats from this graph,
 I grouped by the week day and account type and counted occurances of each combination.
 
