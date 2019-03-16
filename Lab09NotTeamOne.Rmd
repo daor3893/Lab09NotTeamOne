@@ -96,6 +96,9 @@ Question: How long do people keep bikes with NiceRide in terms of duration(time)
 
 lat <- merged %>% select(c(1,4,5,7,10,11,14)) %>% mutate(chnglat = abs(start_latitude-end_latitude), chnglong = abs(start_longitude-end_longitude)) %>% separate(`Start date`, into = c("dateint","timeint"),sep = " ") %>% separate(`End date`,into = c("dateend","timeend"),sep = " ") %>% separate(timeend,into = c("hourend","minuteend"),sep = ":") %>% separate(timeint,into = c("hourint","minuteint"),sep = ":") 
 
+lat$dateint <- mdy(lat$dateint)
+lat$dateend <- mdy(lat$dateend)
+
 #str <- lat[,c(1:5)]
 #str$dateint <- mdy(str$dateint)
 #str <- str%>% mutate(day = strftime(str$dateint, format = "%j"))
@@ -121,6 +124,19 @@ returns
 
 ```
 
+```{r,echo=FALSE}
+kkk <- lat %>% separate(dateint, into = c("year","month","day"),sep = "-") %>% unite("date",1:3,sep = "") %>% separate(dateend, into = c("year1","month1","day1"),sep = "-") %>% unite("datef",6:8,sep = "")
+kkk$date <- parse_integer(kkk$date)
+kkk$datef <- parse_integer(kkk$datef)
+kkk <- as.tibble(kkk)
+
+fff <- kkk[,1] %>% rename("datef" = "date")
+fff <- as.tibble(fff)
+
+# I dont understand why this doesnt work
+#x4 <- fff %>% inner_join(kkk, by = "datef")
+
+```
 Note : `samedayreturn = false` includes those who rented before midnight and returns after midnight. This is not based on time (24hr) but on date.
 
 
@@ -141,17 +157,11 @@ ggplot(data = onehour, mapping = aes(x = minute)) + geom_density()
 count(onehour)
 ```
 ****
-```{r,echo=FALSE}
+```{r,echo=FALSE,include=FALSE}
 ggplot(data = oneday, mapping = aes(x = hour)) + geom_density()
 count(oneday)
-```
-****
-```{r,echo=FALSE}
 ggplot(data = moredays, mapping = aes(x = days)) + geom_density()
 count(moredays)
-```
-****
-```{r,echo=FALSE}
 ggplot(data = moreweeks, mapping = aes(x = weeks)) + geom_density()
 count(moreweeks)
 ```
@@ -167,6 +177,10 @@ count(moreweeks)
 **** 
 #### Ethan's Section
 ****
+* Question: How often do people use the Nice Ride depending on the day of week, and how
+does this vary by account type?
+
+
 ```{r,echo=FALSE}
 
 merged$`Start date` <- mdy_hm(merged$`Start date`)
@@ -187,9 +201,6 @@ week_stats <- nice_ride %>%
   summarise(count = n())
 
 ```
-
-* Question: How often do people use the Nice Ride depending on the day of week, and how
-does this vary by account type?
 
 * Methods: I first used left_join to combine the locations dataset with the overall rides
 dataset, and then changed some variable names and sorted based on if the variables described
