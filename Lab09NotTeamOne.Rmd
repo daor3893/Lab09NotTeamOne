@@ -187,6 +187,29 @@ count(moreweeks)
 #### Anderson's Section
 ****
 
+* Question: What is the average duration a rider stays on their bike per month?
+```{r,echo=FALSE}
+Start_date <- merged %>%
+  separate(`Start date`, into = c("Date", "Time"), sep = " ")
+Start_date$`Date` <- mdy(Start_date$`Date`)
+Start_date$`Time` <- mdy(Start_date$`Time`)  
+
+A <- Start_date %>% 
+  group_by(`Date`) %>%
+  summarise(Average_Duration_per_day = mean(`Total duration (Seconds)`)) %>%
+  filter(Average_Duration_per_day < 5000)
+
+
+ggplot(data = A) +
+  geom_smooth(mapping = aes(x = `Date`, y = `Average_Duration_per_day`)) +
+  geom_point(mapping = aes(x = `Date`, y = `Average_Duration_per_day`)) +
+  ylab("Average Duration (seconds)") +
+  ggtitle("Average Time Spent Riding per Month")
+```
+* I first set my data equal to a new variable I called start_date. I altered this variable by seperating the time/date variable and parsing it into date and time. The next thing I did with my data was looking for the average duration on the bike per month. I filtered, grouped and summarised my data to find this. Finally I plotted the data into a graph showing the trend line of duration spent on the bike throughout the year.
+
+* In my finding I found out that the least amount of time spent riding a bike were during the coldest and latest months of the year. During the months in the middle of the year bikers on average had the longest duration.
+
 **** 
 #### Ethan's Section
 ****
