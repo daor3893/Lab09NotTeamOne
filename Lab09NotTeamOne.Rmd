@@ -356,7 +356,7 @@ s
 **** 
 #### Who did what?
 
-* David - Team jokes and awesome wheelchair video
+* David - Team jokes and awesome wheelchair video, individual sectio, rMarkdown edits, mananged gitKraken errors, ploted points on team map, ran some openmap stuff with Ryan.
 * Arie- Individual section
 * Anderson- Individual section and findings, Seperated and tidied the dataset
 * Ethan- ind section and findings, merged and tidied/sorted the two datasets
