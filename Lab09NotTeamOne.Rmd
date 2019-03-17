@@ -122,6 +122,9 @@ s
 
 ```
 
+* Here you can see the plot of Ryan, showing all of the bike trips from bike stations to parks on the fourth of July, with added markers for each park. This plot is interesting because it shows the parks most popular on the 4th of July, maybe because they had fireworks or some other event going on. In addition, the plot shows the distribution of stations that people left from to get to these parks.
+
+
 ****
 #### David's Section
 **** 
@@ -360,4 +363,4 @@ s
 * Arie- Individual section
 * Anderson- Individual section and findings, Seperated and tidied the dataset
 * Ethan- ind section and findings, merged and tidied/sorted the two datasets
-* Ryan-
+* Ryan- indivual section. Helped create team plot. filtered, plotted, and string detected
