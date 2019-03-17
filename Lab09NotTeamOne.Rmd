@@ -256,3 +256,42 @@ leisurely reasons on the weekends don't as strongly require a regular membership
 **** 
 #### Ryan's Section
 ****
+
+#What parks did people bike to using bike station on the fourth of July?
+#Did people bike to one particlar park or multiple ones?
+#which park did most people bike to?
+
+
+```{r,echo=FALSE}
+
+#What parks did people bike to using bike station on the fourth of July?
+
+
+parques <- trip %>% filter(str_detect(`End station`, "Park$"))
+parques1 <- parques %>% filter(date == "2017-07-04")
+
+  
+autoplot(map.latlon) + 
+  geom_segment(data=parques1, 
+               aes(x=start_longitude, y=start_latitude,
+                   xend=end_longitude, yend=end_latitude), 
+               color = 'blue', size = .5,
+               arrow = arrow(length = unit(0.2, "cm"))) +
+  labs(x='Longitude', y='Latitude') +
+  scale_x_continuous(limits = c(-93.35, -93.15)) +
+  scale_y_continuous(limits = c(44.9, 45.05)) +
+  ggtitle('Fourth of July Rides to Parks')
+
+
+
+s <- parques1 %>%
+  group_by(`End station`) %>%
+  summarize(n=n()) %>% 
+  arrange(desc(n))
+s
+
+
+```
+
+* I worked on joining the datasets and finding out how to convert the dates to a datetime. I also filtered by date and by statiion ending in the work Park in order to find the trips to parks. I then used geom_segment to illustrate the bike stations people left from to get to the parks. Afterwards, I scaled the graph to focus on the trips to the popular parks in Minneapolis. 
+* findings: Most people biked to Minnehaha park, followed by Gateway park and Logan park. People biked to 11 parks in total. 
