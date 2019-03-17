@@ -182,6 +182,23 @@ count(moreweeks)
 **** 
 #### Arie's Section
 ****
+* Question: What is the average lattitude traveled depending on the account type?
+```{r, echo=FALSE}
+
+merged22 <- merged %>% mutate(long_diff = abs(start_longitude - end_longitude), latt_diff = abs(start_latitude-end_latitude))
+
+gg1 <- merged22 %>% select(c(`Start station`, `End station`, long_diff, latt_diff, `Total duration (Seconds)`, `Account type`)) %>%
+  filter(long_diff > 0.001, latt_diff > 0.001)%>%
+  group_by(`Start station`, `End station`, `Total duration (Seconds)`, `Account type`)%>%
+  summarise(avg_long = mean(long_diff), avg_latt = mean(latt_diff))
+
+ggplot(data = gg1, mapping = aes(x = avg_latt))+
+    geom_density()+ facet_wrap(~`Account type`)+ ggtitle("Distribution of Average Latitude")+xlab("Average Latitude")+ylab("Count")
+
+```
+
+* Findings: From my graph I found that there was not much of a difference in the distribution of latitude traveled depedning on the account type. The trend of each account is pretty much the same. However, the distribution of memembers is more. 
+* I used `mutate()` to create new columns that show the total distance for latitude and longitude. Then I created a new varible and selected the data that I wanted to focus on. Then I used `filter()` the longitude and latitude that were greater than .001. Then I used `group_by()` and `summarise()` to find the average distance for latitude and longitude. After I created a `ggplot()` with the new data variable. I used `geom_denisty()` and `facet_wrap()` to compare the distribution by account type.
 
 **** 
 #### Anderson's Section
