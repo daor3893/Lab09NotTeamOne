@@ -141,7 +141,7 @@ fff <- as.tibble(fff)
 ```
 Note : `samedayreturn = false` includes those who rented before midnight and returns after midnight. This is not based on time (24hr) but on date.
 
-* The tibble above shows the amount of NiceRide users depending on when they rented and returned thier bikes. Most users (~ 70%) rent and return thier bikes on the same day and hour. About 29% of users rent and return on the same day but return in during a different hour. The minority of the users, less than .02 percent, return thier bikes at the same time on different days. 
+* The tibble above shows the amount of NiceRide users depending on when they rented and returned thier bikes. Most users (~ 70%) rent and return thier bikes on the same day and hour. About 29% of users rent and return on the same day but return in during a different hour. The minority of the users, less than .02% , return thier bikes at the same time on different days.
 
 
 The graphs below are based on time. Also, it is composed of 434,696 NiceRide users who rent thier bikes for less than hour. 
@@ -157,8 +157,8 @@ moreweeks <- lat %>% mutate( hour = `Total duration (Seconds)`/3600) %>% mutate(
 ```
 ****
 ```{r,echo=FALSE}
-ggplot(data = onehour, mapping = aes(x = minute)) + geom_density()
-count(onehour)
+ggplot(data = onehour, mapping = aes(x = minute)) + geom_density()+ ggtitle("Use Duration of NiceRide Bikes") + ylab("Density")+ xlab("Minutes")
+count(onehour) 
 
 onehour %>% filter(minute < 10) %>% summarise(mean = mean(minute))
 ```
