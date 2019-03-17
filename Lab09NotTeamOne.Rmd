@@ -320,6 +320,9 @@ s
 * findings: Most people biked to Minnehaha park, followed by Gateway park and Logan park. People biked to 11 parks in total. 
 
 **** 
+#### Team Plot
+****
+
 #### Who did what?
 
 * David - Team jokes and awesome wheelchair video
