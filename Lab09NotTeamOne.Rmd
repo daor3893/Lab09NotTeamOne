@@ -87,6 +87,10 @@ autoplot(map.latlon) + # Plots a map
   ggtitle('Halloween Morning Rides')
 ```
 
+****
+#### Team Plot
+****
+* Question: What parks did people bike to using bike station on the fourth of July?
 
 ****
 #### David's Section
@@ -320,9 +324,6 @@ s
 * findings: Most people biked to Minnehaha park, followed by Gateway park and Logan park. People biked to 11 parks in total. 
 
 **** 
-#### Team Plot
-****
-
 #### Who did what?
 
 * David - Team jokes and awesome wheelchair video
