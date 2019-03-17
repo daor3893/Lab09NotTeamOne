@@ -322,7 +322,7 @@ s
 **** 
 #### Who did what?
 
-* David-
+* David - Team jokes and awesome wheelchair video
 * Arie- Individual section
 * Anderson- Individual section and findings, Seperated and tidied the dataset
 * Ethan- ind section and findings, merged and tidied/sorted the two datasets
