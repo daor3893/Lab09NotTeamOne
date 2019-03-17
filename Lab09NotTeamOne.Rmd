@@ -324,6 +324,6 @@ s
 
 * David-
 * Arie-
-* Anderson- 
+* Anderson- Individual section and findings, Seperated and tidied the dataset
 * Ethan- ind section and findings, merged and tidied/sorted the two datasets
 * Ryan-
