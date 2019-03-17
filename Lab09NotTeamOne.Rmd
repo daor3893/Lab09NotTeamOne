@@ -257,12 +257,14 @@ leisurely reasons on the weekends don't as strongly require a regular membership
 #### Ryan's Section
 ****
 
-#What parks did people bike to using bike station on the fourth of July?
-#Did people bike to one particlar park or multiple ones?
-#which park did most people bike to?
+Main quesitno: What parks did people bike to using bike station on the fourth of July?
+
+Did people bike to one particlar park or multiple ones?
+
+which park did most people bike to?
 
 
-```{r,echo=FALSE}
+```{r,echo=FALSE, warning = FALSE}
 
 #What parks did people bike to using bike station on the fourth of July?
 
@@ -278,8 +280,6 @@ autoplot(map.latlon) +
                color = 'blue', size = .5,
                arrow = arrow(length = unit(0.2, "cm"))) +
   labs(x='Longitude', y='Latitude') +
-  scale_x_continuous(limits = c(-93.35, -93.15)) +
-  scale_y_continuous(limits = c(44.9, 45.05)) +
   ggtitle('Fourth of July Rides to Parks')
 
 
