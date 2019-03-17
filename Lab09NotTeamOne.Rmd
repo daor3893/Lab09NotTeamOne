@@ -318,3 +318,12 @@ s
 
 * I worked on joining the datasets and finding out how to convert the dates to a datetime. I also filtered by date and by statiion ending in the work Park in order to find the trips to parks. I then used geom_segment to illustrate the bike stations people left from to get to the parks. Afterwards, I scaled the graph to focus on the trips to the popular parks in Minneapolis. 
 * findings: Most people biked to Minnehaha park, followed by Gateway park and Logan park. People biked to 11 parks in total. 
+
+**** 
+#### Who did what?
+
+* David-
+* Arie-
+* Anderson- 
+* Ethan- ind section and findings, merged and tidied/sorted the two datasets
+* Ryan-
